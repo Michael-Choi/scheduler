@@ -1,6 +1,7 @@
-import React from "react";
-
-function Form() {
+import React, { useState } from "react";
+import InterviewerList from "components/InterviewerList";
+import Button from "components/Button";
+function Form(props) {
   return (
     <main className="appointment__card appointment__card--create">
       <section className="appointment__card-left">
@@ -10,6 +11,7 @@ function Form() {
             name="name"
             type="text"
             placeholder="Enter Student Name"
+            value={props.name}
             /*
           This must be a controlled component
         */
@@ -17,14 +19,18 @@ function Form() {
         </form>
         <InterviewerList
           interviewers={props.interviewers}
-          value={interviewer}
-          onChange={setInterviewer}
+          value={props.interviewer}
+          onChange={props.setInterviewer}
         />
       </section>
       <section className="appointment__card-right">
         <section className="appointment__actions">
-          <Button danger>Cancel</Button>
-          <Button confirm>Save</Button>
+          <Button onClick={props.onCancel} danger>
+            Cancel
+          </Button>
+          <Button onClick={props.onSave} confirm>
+            Save
+          </Button>
         </section>
       </section>
     </main>

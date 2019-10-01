@@ -7,7 +7,9 @@ function Show(props) {
         <h2 className="text--regular">{props.student}</h2>
         <section className="interviewer">
           <h4 className="text--light">Interviewer</h4>
-          <h3 className="text--regular">{props.interviewer}</h3>
+          <h3 className="text--regular">
+            {props.interviewer ? props.interviewer : null}
+          </h3>
         </section>
       </section>
       <section className="appointment__card-right">

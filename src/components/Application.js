@@ -3,7 +3,7 @@ import axios from "axios";
 import "./Application.scss";
 import DayList from "./DayList";
 import Appointment from "components/Appointment";
-import { getAppointmentsForDay } from "helpers/selectors";
+import { getAppointmentsForDay, getInterview } from "helpers/selectors";
 //import getInterview from "helpers/getInterview";
 
 export default function Application(props) {
@@ -26,8 +26,8 @@ export default function Application(props) {
         appointments: all[1].data,
         interviewers: all[2].data
       });
-      // console.log(all[0]);
-      // console.log(all[1]);
+      console.log(all[0]);
+      console.log(all[1]);
       console.log(all[2].data);
     });
   }, []);
@@ -52,15 +52,17 @@ export default function Application(props) {
         />
       </section>
       <section className="schedule">
-        {getAppointmentsForDay(state, state.day).map(appointment => (
-          //const interview = getInterview(state, appointment.interview);
-          <Appointment
-            key={appointment.id}
-            id={appointment.id}
-            time={appointment.time}
-            interview={appointment.interview}
-          />
-        ))}
+        {getAppointmentsForDay(state, state.day).map(appointment => {
+          const interview = getInterview(state, appointment.interview);
+          return (
+            <Appointment
+              key={appointment.id}
+              id={appointment.id}
+              time={appointment.time}
+              interview={interview}
+            />
+          );
+        })}
         <Appointment key="last" time="5pm" />
       </section>
     </main>

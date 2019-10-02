@@ -22,6 +22,7 @@ const useVisualMode = initial => {
     }
     setMode(history[history.length - 1]);
   }
+  console.log(history);
   return { mode, transition, back };
 };
 

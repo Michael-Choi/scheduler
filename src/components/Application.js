@@ -4,6 +4,7 @@ import "./Application.scss";
 import DayList from "./DayList";
 import Appointment from "components/Appointment";
 import { getAppointmentsForDay, getInterview } from "helpers/selectors";
+import useVisualMode from "hooks/useVisualMode";
 //import getInterview from "helpers/getInterview";
 
 export default function Application(props) {
@@ -22,6 +23,7 @@ export default function Application(props) {
       axios.get("/api/interviewers")
     ]).then(all => {
       setState({
+        ...state,
         days: all[0].data,
         appointments: all[1].data,
         interviewers: all[2].data

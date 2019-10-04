@@ -5,6 +5,7 @@ const useApplicationData = () => {
   const SET_DAY = "SET_DAY";
   const SET_APPLICATION_DATA = "SET_APPLICATION_DATA";
   const SET_INTERVIEW = "SET_INTERVIEW";
+  const UPDATE_SPOTS_REMAINING = "UPDATE_SPOTS_REMAINING";
 
   function reducer(state, action) {
     switch (action.type) {
@@ -22,7 +23,7 @@ const useApplicationData = () => {
       case SET_INTERVIEW:
         const appointment = {
           ...state.appointments[action.id],
-          interview: { ...action.interview }
+          interview: action.interview && { ...action.interview }
         };
         const appointments = {
           ...state.appointments,
@@ -32,6 +33,33 @@ const useApplicationData = () => {
           ...state,
           appointments
         };
+
+      case UPDATE_SPOTS_REMAINING:
+        let dayid = 0;
+        if (action.id < 6) {
+          dayid = 0;
+        } else if (action.id < 11) {
+          dayid = 1;
+        } else if (action.id < 16) {
+          dayid = 2;
+        } else if (action.id < 21) {
+          dayid = 3;
+        } else if (action.id < 26) {
+          dayid = 4;
+        }
+
+        let newdays = state.days.map((item, index) => {
+          if (index !== dayid) {
+            return item;
+          }
+          return {
+            ...item,
+            spots: state.days[dayid].spots + action.val
+          };
+        });
+
+        console.log("newdays: ", newdays);
+        return { ...state, days: newdays };
 
       default:
         throw new Error("Tried to use unsupported action type " + action.type);
@@ -67,13 +95,25 @@ const useApplicationData = () => {
   function bookInterview(id, interview) {
     return axios
       .put(`/api/appointments/${id}`, { interview })
-      .then(dispatch({ type: SET_INTERVIEW, id, interview }));
+      .then(dispatch({ type: SET_INTERVIEW, id, interview }))
+      .then(updateDays(id, -1));
   }
 
   function deleteInterview(id, interview) {
     return axios
       .delete(`/api/appointments/${id}`)
-      .then(dispatch({ type: SET_INTERVIEW, id, interview: null }));
+      .then(dispatch({ type: SET_INTERVIEW, id, interview: null }))
+      .then(updateDays(id, 1));
+  }
+
+  function updateDays(id, val) {
+    console.log("logging state.days ", state.days);
+    dispatch({
+      type: UPDATE_SPOTS_REMAINING,
+      id,
+      val
+    });
+    console.log("consolelog state.days after change", state.days);
   }
 
   return { state, setDay, bookInterview, deleteInterview };

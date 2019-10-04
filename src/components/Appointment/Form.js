@@ -13,6 +13,7 @@ function Form(props) {
     reset();
     props.onCancel();
   }
+
   return (
     <main className="appointment__card appointment__card--create">
       <section className="appointment__card-left">
@@ -40,7 +41,7 @@ function Form(props) {
           <Button onClick={event => cancel(props)} danger>
             Cancel
           </Button>
-          <Button onClick={props.onSave} confirm>
+          <Button onClick={event => props.onSave(name, interviewer)} confirm>
             Save
           </Button>
         </section>

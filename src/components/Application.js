@@ -3,8 +3,12 @@ import axios from "axios";
 import "./Application.scss";
 import DayList from "./DayList";
 import Appointment from "components/Appointment";
-import { getAppointmentsForDay, getInterview } from "helpers/selectors";
-import useVisualMode from "hooks/useVisualMode";
+import {
+  getAppointmentsForDay,
+  getInterview,
+  getInterviewersForDay
+} from "helpers/selectors";
+//import useVisualMode from "hooks/useVisualMode";
 //import getInterview from "helpers/getInterview";
 
 export default function Application(props) {
@@ -21,19 +25,29 @@ export default function Application(props) {
       axios.get("/api/days"),
       axios.get("/api/appointments"),
       axios.get("/api/interviewers")
-    ]).then(all => {
-      setState({
-        ...state,
-        days: all[0].data,
-        appointments: all[1].data,
-        interviewers: all[2].data
-      });
-      console.log(all[0]);
-      console.log(all[1]);
-      console.log(all[2].data);
-    });
+    ])
+      .then(all => {
+        setState(prev => ({
+          ...prev,
+          days: all[0].data,
+          appointments: all[1].data,
+          interviewers: all[2].data
+        }));
+        // console.log(all[0]);
+        // console.log(all[1]);
+        // console.log(all[2].data);
+      })
+      .catch();
   }, []);
+  function bookInterview(id, interview) {
+    console.log(id, interview);
+    const appointment = {
+      ...state.appointments[id],
+      interview: { ...interview }
+    };
+  }
 
+  const interviewers = getInterviewersForDay(state, state.day);
   return (
     <main className="layout">
       <section className="sidebar">
@@ -55,13 +69,14 @@ export default function Application(props) {
       </section>
       <section className="schedule">
         {getAppointmentsForDay(state, state.day).map(appointment => {
-          const interview = getInterview(state, appointment.interview);
           return (
             <Appointment
               key={appointment.id}
               id={appointment.id}
               time={appointment.time}
-              interview={interview}
+              interview={getInterview(state, appointment.interview)}
+              interviewers={interviewers}
+              bookInterview={bookInterview}
             />
           );
         })}

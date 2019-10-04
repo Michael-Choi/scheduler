@@ -1,7 +1,7 @@
 // take in an initial mode
 // set the mode state with the initial mode provided
 // return an object with a property mode
-import React, { useEffect, useState } from "react";
+import { useState } from "react";
 
 const useVisualMode = initial => {
   const [mode, setMode] = useState(initial);
@@ -9,10 +9,10 @@ const useVisualMode = initial => {
 
   function transition(newMode, replace = false) {
     if (replace) {
-      setHistory([...history, history[0]]);
+      setHistory(prev => [...prev, history[0]]);
       setMode(newMode);
     } else {
-      setHistory([...history, newMode]);
+      setHistory(prev => [...prev, newMode]);
       setMode(newMode);
     }
   }

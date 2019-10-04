@@ -7,6 +7,7 @@ import Status from "./Status";
 import Confirm from "./Confirm";
 import useVisualMode from "hooks/useVisualMode";
 import Form from "./Form";
+import Error from "./Error";
 
 export default function Appointment(props) {
   const EMPTY = "EMPTY";
@@ -16,34 +17,41 @@ export default function Appointment(props) {
   const DELETING = "DELETING";
   const CONFIRM = "CONFIRM";
   const EDIT = "EDIT";
+  const ERROR_SAVE = "ERROR_SAVE";
+  const ERROR_DELETE = "ERROR_DELETE";
 
   const { mode, transition, back } = useVisualMode(
     props.interview ? SHOW : EMPTY
   );
-  async function save(name, interviewer) {
-    transition(SAVING);
+  function save(name, interviewer) {
     const interview = {
       student: name,
       interviewer
     };
-    await props.bookInterview(props.id, interview);
-    setTimeout(() => transition(SHOW), 300);
+    transition(SAVING);
+
+    props
+      .bookInterview(props.id, interview)
+      .then(() => transition(SHOW))
+      .catch(err => transition(ERROR_SAVE, true));
   }
 
-  async function delInterview(name, interviewer) {
+  function delInterview(name, interviewer) {
     transition(DELETING);
     const interview = {
       student: name,
       interviewer
     };
-    await props.deleteInterview(props.id, interview);
-    setTimeout(() => transition(EMPTY), 300);
+    props
+      .deleteInterview(props.id, interview)
+      .then(() => transition(EMPTY))
+      .catch(err => transition(ERROR_DELETE, true));
   }
 
   return (
     <article className="appointment">
       <Header time={props.time} />
-      {mode === EMPTY && <Empty onAdd={() => transition("CREATE")} />}
+      {mode === EMPTY && <Empty onAdd={() => transition("CREATE", true)} />}
       {mode === SHOW && (
         <Show
           student={props.interview.student}
@@ -76,6 +84,13 @@ export default function Appointment(props) {
           onCancel={() => back()}
           onConfirm={delInterview}
         />
+      )}
+      {mode === ERROR_SAVE && (
+        <Error message="Saving error" onClose={() => back()} />
+      )}
+
+      {mode === ERROR_DELETE && (
+        <Error message="Deleting error" onClose={() => back()} />
       )}
     </article>
   );

@@ -90,10 +90,12 @@ const useApplicationData = () => {
   const setDay = day => dispatch({ type: SET_DAY, day });
 
   function bookInterview(id, interview) {
+    if (!state.appointments[id].interview) {
+      updateDays(id, -1);
+    }
     return axios
       .put(`/api/appointments/${id}`, { interview })
-      .then(dispatch({ type: SET_INTERVIEW, id, interview }))
-      .then(updateDays(id, -1));
+      .then(dispatch({ type: SET_INTERVIEW, id, interview }));
   }
 
   function deleteInterview(id, interview) {

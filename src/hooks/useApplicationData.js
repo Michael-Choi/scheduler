@@ -57,10 +57,7 @@ const useApplicationData = () => {
             spots: state.days[dayid].spots + action.val
           };
         });
-
-        console.log("newdays: ", newdays);
         return { ...state, days: newdays };
-
       default:
         throw new Error("Tried to use unsupported action type " + action.type);
     }
@@ -87,7 +84,7 @@ const useApplicationData = () => {
           interviewers: all[2].data
         })
       )
-      .catch(err => console.log(err));
+      .catch(err => console.log("err"));
   }, []);
 
   const setDay = day => dispatch({ type: SET_DAY, day });

@@ -17,9 +17,7 @@ import Application from "components/Application";
 /*
   A test that renders a React Component
 */
-it("renders without crashing", () => {
-  render(<Application />);
-});
+
 describe("Appointment", () => {
   it("renders without crashing", () => {
     render(<Appointment />);

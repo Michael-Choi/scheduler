@@ -12,7 +12,7 @@ import {
   getByPlaceholderText,
   getAllByText
 } from "@testing-library/react";
-
+import axios from "axios";
 import Application from "components/Application";
 
 afterEach(cleanup);
@@ -85,10 +85,44 @@ describe("Application testing", () => {
     expect(getByText(appointment, "Save")).toBeInTheDocument();
     fireEvent.click(getByText(appointment, "Save"));
     expect(getByText(appointment, "Saving")).toBeInTheDocument();
-    await waitForElement(() => getByText(container, "Lydia Miller-Jones"));
+    await waitForElement(() => getByText(appointment, "Lydia Miller-Jones"));
     const day = getAllByTestId(container, "day").find(day =>
       getByText(day, "Monday")
     );
     expect(getByText(day, "1 spot remaining")).toBeInTheDocument();
+  });
+
+  /* test number five ?????*/
+  it("shows the save error when failing to save an appointment", async () => {
+    const { container, debug } = render(<Application />);
+    axios.put.mockRejectedValueOnce();
+    await waitForElement(() => getByText(container, "Archie Cohen"));
+
+    const appointments = getAllByTestId(container, "appointment");
+    const appointment = appointments[0];
+
+    fireEvent.click(getByAltText(appointments[0], "Add"));
+
+    fireEvent.change(getByPlaceholderText(appointment, /enter student name/i), {
+      target: { value: "Lydia Miller-Jones" }
+    });
+    fireEvent.click(getByAltText(appointment, "Sylvia Palmer"));
+    fireEvent.click(getByText(appointment, "Save"));
+
+    console.log(prettyDOM(appointment));
+    await waitForElement(() => getByText(appointment, "Saving error"));
+    expect(getByText(appointment, "Error")).toBeInTheDocument();
+
+    // expect(getByText(appointment, "Archie Cohen")).not.toBeInTheDocument();
+
+    const day = getAllByTestId(container, "day").find(day =>
+      getByText(day, "Monday")
+    );
+    // console.log(prettyDOM(day));
+    expect(getByText(day, "No spots remaining")).toBeInTheDocument();
+  });
+
+  it("shows the delete error when failing to delete an existing appointment", () => {
+    axios.delete.mockRejectedValueOnce();
   });
 });

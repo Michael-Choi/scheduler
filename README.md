@@ -21,3 +21,10 @@ npm test
 ```sh
 npm run storybook
 ```
+
+1. Book an interview!
+
+   !["Book an interview!"](https://github.com/Michael-Choi/scheduler/blob/master/docs/SchedulerSave.png)
+
+2) Save the interview!
+   !["Save the interview!"](https://github.com/Michael-Choi/scheduler/blob/master/docs/SchedulerSaved.png)

@@ -49,7 +49,7 @@ describe("Application testing", () => {
     const day = getAllByTestId(container, "day").find(day =>
       getByText(day, "Monday")
     );
-    // console.log(prettyDOM(day));
+
     expect(getByText(day, "No spots remaining")).toBeInTheDocument();
   });
 
@@ -61,10 +61,10 @@ describe("Application testing", () => {
     const appointments = getAllByTestId(container, "appointment");
     const appointment = appointments[1];
     fireEvent.click(getByAltText(appointment, "Delete"));
-    // console.log(prettyDOM(appointment));
+
     fireEvent.click(getByText(appointment, "Confirm"));
     expect(getByText(appointment, "Deleting")).toBeInTheDocument();
-    // console.log(prettyDOM(appointment));
+
     await waitForElement(() => getByAltText(appointment, "Add"));
     const day = getAllByTestId(container, "day").find(day =>
       getByText(day, "Monday")
@@ -109,7 +109,6 @@ describe("Application testing", () => {
     fireEvent.click(getByAltText(appointment, "Sylvia Palmer"));
     fireEvent.click(getByText(appointment, "Save"));
 
-    console.log(prettyDOM(appointment));
     await waitForElement(() => getByText(appointment, "Saving error"));
     expect(getByText(appointment, "Error")).toBeInTheDocument();
 

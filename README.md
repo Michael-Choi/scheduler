@@ -28,3 +28,6 @@ npm run storybook
 
 2) Save the interview!
    !["Save the interview!"](https://github.com/Michael-Choi/scheduler/blob/master/docs/SchedulerSaved.png)
+
+3) Delete the interview!
+   !["Delete an interview!"](https://github.com/Michael-Choi/scheduler/blob/master/docs/SchedulerDelete.png)

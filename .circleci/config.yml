@@ -19,21 +19,21 @@ jobs:
           key: v1-dependencies-{{ checksum "package.json" }}
       - run: npm test
 
-deploy:
-  machine:
-    enabled: true
+  deploy:
+    machine:
+      enabled: true
 
-  working_directory: ~/client
+    working_directory: ~/client
 
-  steps:
-    - add_ssh_keys:
-        fingerprints:
-          - "d1:e0:e3:76:24:7b:d3:78:49:1b:71:50:fd:43:b5:c4"
-    - checkout
-    - run:
-        name: Push Master to Production
-        command: |
-          git push https://github.com/michael-choi/scheduler.git master:production
+    steps:
+      - add_ssh_keys:
+          fingerprints:
+            - "d1:e0:e3:76:24:7b:d3:78:49:1b:71:50:fd:43:b5:c4"
+      - checkout
+      - run:
+          name: Push Master to Production
+          command: |
+            git push https://github.com/michael-choi/scheduler.git master:production
 
 workflows:
   version: 2

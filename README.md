@@ -1,5 +1,7 @@
 # Interview Scheduler
 
+The server is hosted on heroku's free server which shuts down after 30 minutes of inactivity. If the website is not populating please wait a few minutes and refresh.
+
 ## Setup
 
 Install dependencies with `npm install`.

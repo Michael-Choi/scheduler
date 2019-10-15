@@ -3,9 +3,7 @@ import InterviewerList from "components/InterviewerList";
 import Button from "components/Button";
 function Form(props) {
   const [name, setName] = useState(props.name || "");
-  const [interviewer, setInterviewer] = useState(
-    props.interviewer || props.interviewers[0].id
-  );
+  const [interviewer, setInterviewer] = useState(props.interviewers[0].id);
   const [error, setError] = useState("");
   function reset() {
     setName("");

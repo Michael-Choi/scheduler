@@ -6,6 +6,8 @@ Through this project, I have gained an introduction to hooks and reducers in Rea
 
 The server is hosted on heroku's free server which shuts down after 30 minutes of inactivity. If the website is not populating please wait few seconds for the heroku server to start up.
 
+The repo to the server is [Scheduler-api](https://github.com/Michael-Choi/scheduler-api)
+
 ## Setup
 
 Install dependencies with `npm install`.

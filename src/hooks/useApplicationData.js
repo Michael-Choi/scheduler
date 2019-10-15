@@ -45,10 +45,7 @@ const useApplicationData = () => {
   }
 
   function deleteInterview(id, interview) {
-    return axios
-      .delete(`/api/appointments/${id}`)
-      .then(dispatch({ type: SET_INTERVIEW, id, interview: null }))
-      .then(updateDays(id, 1));
+    return axios.delete(`/api/appointments/${id}`).then(updateDays(id, 1));
   }
 
   function updateDays(id, val) {

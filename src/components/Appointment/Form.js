@@ -13,7 +13,7 @@ function Form(props) {
     reset();
     props.onCancel();
   }
-  console.log(props);
+
   function validate() {
     if (name === "") {
       setError("Student name cannot be blank");

@@ -1,5 +1,11 @@
 # Interview Scheduler
 
+Built with PostgreSQL, React, Node.
+Interview scheduler is a project that allows users to book, delete and edit interviews.
+Through this project, I have gained an introduction to hooks and reducers in React.
+
+The server is hosted on heroku's free server which shuts down after 30 minutes of inactivity. If the website is not populating please wait few seconds for the heroku server to start up.
+
 ## Setup
 
 Install dependencies with `npm install`.
